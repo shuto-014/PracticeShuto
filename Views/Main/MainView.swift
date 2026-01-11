@@ -10,22 +10,55 @@ import SwiftUI
 struct MainView: View {
     @State private var searchText: String = ""
     
-    let coffees = [
-        ("カプチーノ", "Cappucchino", 530, "cappucchino"),
-        ("カフェラテ", "Latte", 530, "latte"),
-        ("フラットホワイト", "Flat White", 530, "flatWhite"),
-        ("エスプレッソ", "Espresso", 430, "espresso"),
-        ("アメリカーノ", "Americano", 430, "americano"),
-        ("抹茶ラテ", "Matcha", 530, "matcha")
-    ]
-    
     let columns : [GridItem] = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
     
-    @State private var favorites: [Bool] = [false, false, false, false, false, false]
-    
+    @State private var coffees: [Coffee] = [
+        Coffee(
+            nameJP: "カプチーノ",
+            nameEN: "Cappucchino",
+            price: 530,
+            imageName: "cappucchino",
+            isFavorite: false
+        ),
+        Coffee(
+            nameJP: "カフェラテ",
+            nameEN: "Latte",
+            price: 530,
+            imageName: "latte",
+            isFavorite: false
+        ),
+        Coffee(
+            nameJP: "フラットホワイト",
+            nameEN: "Flat White",
+            price: 530,
+            imageName: "flatWhite",
+            isFavorite: false
+        ),
+        Coffee(
+            nameJP: "エスプレッソ",
+            nameEN: "Espresso",
+            price: 530,
+            imageName: "espresso",
+            isFavorite: false
+        ),
+        Coffee(
+            nameJP: "アメリカーノ",
+            nameEN: "Americano",
+            price: 530,
+            imageName: "americano",
+            isFavorite: false
+        ),
+        Coffee(
+            nameJP: "抹茶ラテ",
+            nameEN: "Matcha Latte",
+            price: 530,
+            imageName: "matcha",
+            isFavorite: false
+        )
+    ]
     
     var body: some View {
         NavigationStack {
@@ -56,17 +89,16 @@ struct MainView: View {
                             Spacer()
                         }
                         ScrollView {
-                                LazyVGrid(columns: columns, spacing: 20) {
-                                    ForEach(coffees.indices, id: \.self) { index in
-                                        CoffeeCardView(
-                                            nameJP: coffees[index].0,
-                                            nameEN: coffees[index].1,
-                                            price: coffees[index].2,
-                                            imageName: coffees[index].3,
-                                            isFavorite: $favorites[index]
-                                        )
+                            LazyVGrid(columns: columns, spacing: 20) {
+                                ForEach($coffees) { $coffee in
+                                    NavigationLink {
+                                        CoffeeDetailView(coffee: coffee)
+                                    } label: {
+                                        CoffeeCardView(coffee: $coffee)
                                     }
+                                    .buttonStyle(PlainButtonStyle())
                                 }
+                            }
                             }
                         }
                     }

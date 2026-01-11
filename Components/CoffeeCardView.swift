@@ -8,66 +8,65 @@
 import SwiftUI
 
 struct CoffeeCardView: View {
-    let nameJP: String
-    let nameEN: String
-    let price: Int
-    let imageName: String
-    @Binding var isFavorite: Bool
+    @Binding var coffee: Coffee
     
     var body: some View {
-        HStack {
             ZStack {
                 Color("card")
                     .frame(width: 170, height: 196)
                     .cornerRadius(15)
                     .shadow(color: .black.opacity(0.3), radius: 5, x: 5, y: 5)
                 
-                VStack {
+                VStack(alignment: .leading) {
                     ZStack (alignment: .topTrailing){
-                        Image(imageName)
+                        Image(coffee.imageName)
                             .resizable()
                             .scaledToFill()
                             .frame(width: 150, height: 135)
                             .cornerRadius(15)
                             .padding(.bottom, 10)
+                        
                         Button {
-                            isFavorite.toggle()
+                            coffee.isFavorite.toggle()
                         } label: {
-                            Image(systemName: isFavorite ? "heart.fill" : "heart")
+                            Image(systemName: coffee.isFavorite ? "heart.fill" : "heart")
                                 .font(.system(size: 25))
                                 .foregroundStyle(.pink)
                         }
                         .padding(.top, 5)
                         .padding(.trailing, 3)
                     }
-                    
-                    HStack(alignment: .top) {
-                        VStack(alignment: .leading) {
-                            Text(nameJP)
-                                .font(.system(size: 14).bold())
-                            Text(nameEN)
-                                .font(.system(size: 12))
-                                .foregroundStyle(.gray)
-                        }
-                        Text("¥ \(price)")
-                            .font(.system(size: 12))
+                    Text(coffee.nameJP)
+                        .font(.subheadline.bold())
+                        .lineLimit(1)
+                    HStack(alignment: .firstTextBaseline) {
+                        Text(coffee.nameEN)
+                            .font(.caption)
+                            .foregroundStyle(.gray)
+                        
+                        Spacer()
+                        
+                        Text("¥ \(coffee.price)")
+                            .font(.caption)
                             .padding(.leading)
                     }
                 }
-                
+                .frame(width: 150)
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: 196)
         }
     }
-}
+
 
 #Preview {
     CoffeeCardView(
-        nameJP: "カプチーノ",
-        nameEN: "Cappucchino",
-        price: 530,
-        imageName: "cappucchino",
-        isFavorite: .constant(false)
+        coffee: .constant(
+            Coffee(
+                nameJP: "フラットホワイト",
+                nameEN: "Cappucchino",
+                price: 530,
+                imageName: "cappucchino",
+                isFavorite: false
+            )
+        )
     )
 }

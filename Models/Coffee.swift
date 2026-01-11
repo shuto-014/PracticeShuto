@@ -5,14 +5,14 @@
 //  Created by Shuto Kurihara on 2026/01/10.
 //
 
-import SwiftUI
+import Foundation
 
-struct Coffee: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+struct Coffee: Identifiable {
+    let id = UUID()
+    let nameJP: String
+    let nameEN: String
+    let price: Int
+    let imageName: String
+    var isFavorite: Bool
 }
 
-#Preview {
-    Coffee()
-}
